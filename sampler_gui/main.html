@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Sampler GUI</title>
+        <meta charset="UTF-8"> 
+        <script src="lib/plotly-2.27.0.min.js.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+        <style>
+            #analog_plot {
+                width: 1000px;
+                height: 500px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="analog_plot"></div>
+        <p>Trigger level: <span id="trig_lvl"></span></p>
+        <p>Sampling rate: <span id="sample_rate"></span></p>
+        <script src="analog_gui.js"></script>
+        <script src="scope.js"></script>
+        <script src="lib/mqttws31.js"></script>
+        <script src="mqtt.js"></script>
+        <script>
+            analog_init();
+            test_parse_analog_sample_block();
+        </script>
+    </body>
+</html>
