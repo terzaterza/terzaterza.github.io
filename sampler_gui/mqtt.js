@@ -107,6 +107,9 @@ var websocketclient = {
     'onConnect': function () {
         websocketclient.connected = true;
         console.log("connected");
+        if (websocketclient.subscribe("irs2_scope", 1, "")) {
+            alert("Connected to MQTT server!");
+        }
     },
 
     'onFail': function (message) {
