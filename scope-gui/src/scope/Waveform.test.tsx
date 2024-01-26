@@ -1,5 +1,5 @@
-import { AnalogSignal, BinarySignal } from "./Signal";
-import { AnalogWaveform, AnalogWaveformProps, BinaryWaveform, BinaryWaveformProps } from "./Waveform";
+import { AnalogSignal, BinarySignal, DecodedSignal } from "./Signal";
+import { AnalogWaveform, AnalogWaveformProps, BinaryWaveform, BinaryWaveformProps, DecodedWaveform, DecodedWaveformProps } from "./Waveform";
 
 export function TestAnalogWaveform() {
     const length = 2048;
@@ -31,4 +31,19 @@ export function TestBinaryWaveform() {
         xTicks: xTicks,
     };
     return <BinaryWaveform {...props}></BinaryWaveform>
+}
+
+export function TestDecodedWaveform() {
+    const length = 128;
+    const offset0 = 32;
+    const sampleRate = 1e6;
+
+    const xTicks = [...Array(length).keys()].map((v) => (v - offset0) / sampleRate);
+    const decSignal: DecodedSignal = xTicks.map((x) => Math.round(Math.random() * 3));
+
+    const props: DecodedWaveformProps = {
+        waveform: decSignal,
+        xTicks: xTicks,
+    };
+    return <DecodedWaveform {...props}></DecodedWaveform>
 }

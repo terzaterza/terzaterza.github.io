@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { TestAnalogWaveform, TestBinaryWaveform } from './scope/Waveform.test';
+import { TestAnalogWaveform, TestBinaryWaveform, TestDecodedWaveform } from './scope/Waveform.test';
 
 function App() {
   return (
@@ -14,6 +14,7 @@ function App() {
       </header>
       <TestAnalogWaveform></TestAnalogWaveform>
       <TestBinaryWaveform></TestBinaryWaveform>
+      <TestDecodedWaveform></TestDecodedWaveform>
     </div>
   );
 }
