@@ -15,7 +15,7 @@ export function TestSignalDisplay() {
         ticks: xTicks,
         name: "Test signal",
         sourceType: "file",
-        onAcquireSignal: (signal: Signal) => { console.log("Success acquiring"); }
+        onAcquireSignal: (signal: Signal) => { console.log(signal); }
     };
     return <SignalDisplay {...signalProps}></SignalDisplay>;
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { Signal } from "./Signal";
+import { Signal, signalDeserialize } from "./Signal";
 
 /**
  * Common to all signal source types
@@ -42,7 +42,7 @@ export class SignalSourceFile extends React.Component<SignalSourceProps, SignalS
                     const reader = new FileReader();
                     reader.addEventListener("load", (event) => {
                         try {
-                            const signal = JSON.parse(event.target?.result as string) as Signal;
+                            const signal = signalDeserialize(event.target?.result as string);
                             this.props.onAcquireSignal(signal);
                             this.setState({selectedFileRead: true});
                         } catch (e) {
