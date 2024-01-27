@@ -3,7 +3,7 @@ import Plot, { PlotParams } from "react-plotly.js";
 import { Sample, AnalogSignal, BinarySignal, DecodedSignal } from "./Signal";
 
 export interface AnalogWaveformProps {
-    waveforms: AnalogSignal[];
+    waveforms: AnalogSignal | AnalogSignal[];
     yRange: [Sample, Sample];
     xTicks?: number[];
     sharedXAxis?: any;
@@ -17,18 +17,24 @@ export class AnalogWaveform extends React.Component<AnalogWaveformProps> {
     constructor(props: AnalogWaveformProps) {
         super(props);
         
+        /** @todo Maybe move this to render */
         /* If there are multiple waveforms, check for same length */
-        this.waveformLength = props.waveforms[0].length;
-        if (props.waveforms.length > 1) {
-            console.assert(props.waveforms.every((w) => w.length === this.waveformLength));
+        if (props.waveforms[0] instanceof Array) {
+            const waveforms = props.waveforms as AnalogSignal[];
+            this.waveformLength = waveforms[0].length;
+            console.assert(waveforms.every((w) => w.length === this.waveformLength));
+        } else {
+            this.waveformLength = props.waveforms.length;
         }
     }
 
     render(): React.ReactNode {
         const waveformColors = ["FFEE00", "00FFFF", "AA00FF", "00FFAA"];
+        const waveforms = (this.props.waveforms[0] instanceof Array ?
+            this.props.waveforms : [this.props.waveforms]) as AnalogSignal[];
         const xTicks = this.props.xTicks ?? [...Array(this.waveformLength).keys()];
         const plotProps: PlotParams = {
-            data: this.props.waveforms.map((w, i) => ({
+            data: waveforms.map((w, i) => ({
                 x: xTicks,
                 y: w,
                 mode: "lines",
