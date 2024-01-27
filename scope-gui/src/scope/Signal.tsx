@@ -2,15 +2,14 @@ import React from "react";
 import { AnalogWaveform, BinaryWaveform, DecodedWaveform } from "./Waveform";
 
 export type Sample = number;
-
 export type AnalogSignal = Sample[];
 export type BinarySignal = (0 | 1)[];
 export type DecodedSignal = (number | string)[];
 
-type SignalType = "analog" | "binary" | "decoded";
-type SignalSourceType = Signal | "scope" | "file";
+export type SignalType = "analog" | "binary" | "decoded";
+export type SignalData = AnalogSignal | AnalogSignal[] | BinarySignal | DecodedSignal;
+export type SignalSourceType = Signal | "scope" | "file";
 type SignalSources = Map<string, SignalSourceType>;
-type SignalData = AnalogSignal | AnalogSignal[] | BinarySignal | DecodedSignal;
 
 interface Signal {
     type: SignalType;
