@@ -1,11 +1,11 @@
 import React from "react";
 import Plot, { PlotParams } from "react-plotly.js";
-import { Sample, AnalogSignal, BinarySignal, DecodedSignal } from "./Signal";
+import { AnalogSignal, BinarySignal, DecodedSignal } from "./Signal";
 
 export interface AnalogWaveformProps {
     waveforms: AnalogSignal | AnalogSignal[];
-    yRange: [Sample, Sample];
-    xTicks?: number[];
+    yRange: [number, number];
+    xTicks: number[];
     sharedXAxis?: any;
     grid?: boolean;
     labels?: string[];
@@ -32,10 +32,9 @@ export class AnalogWaveform extends React.Component<AnalogWaveformProps> {
         const waveformColors = ["FFEE00", "00FFFF", "AA00FF", "00FFAA"];
         const waveforms = (this.props.waveforms[0] instanceof Array ?
             this.props.waveforms : [this.props.waveforms]) as AnalogSignal[];
-        const xTicks = this.props.xTicks ?? [...Array(this.waveformLength).keys()];
         const plotProps: PlotParams = {
             data: waveforms.map((w, i) => ({
-                x: xTicks,
+                x: this.props.xTicks,
                 y: w,
                 mode: "lines",
                 line: {color: waveformColors[i]}
@@ -60,7 +59,7 @@ export class BinaryWaveform extends React.Component<BinaryWaveformProps> {
                 x: xTicks,
                 y: this.props.waveform,
                 mode: "lines",
-                line: {color: "00FF88", shape: "vh"}
+                line: {color: "00FF88", shape: "hv"}
             }],
             layout: {yaxis: {range: [-0.1, 1.1]}}
         };

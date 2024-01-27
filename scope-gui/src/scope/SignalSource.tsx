@@ -1,24 +1,23 @@
 import React from "react";
-import { SignalData, SignalType } from "./Signal";
+import { Signal } from "./Signal";
 
 /**
- * Common to all signal fetchers
+ * Common to all signal source types
  */
-export interface SignalSourceBlockProps {
-    signalType: SignalType;
-    onAcquireSignal: (data: SignalData) => void;
+export interface SignalSourceProps {
+    onAcquireSignal: (signal: Signal) => void;
 }
 
 /**
  * If the file is already read, the read button is disabled
  */
-interface SignalSourceBlockFileState {
+interface SignalSourceFileState {
     fileSelected?: File;
     selectedFileRead: boolean;
 }
 
-export class SignalSourceBlockFile extends React.Component<SignalSourceBlockProps, SignalSourceBlockFileState> {
-    constructor(props: SignalSourceBlockProps) {
+export class SignalSourceFile extends React.Component<SignalSourceProps, SignalSourceFileState> {
+    constructor(props: SignalSourceProps) {
         super(props);
         this.state = {
             selectedFileRead: false
@@ -42,14 +41,15 @@ export class SignalSourceBlockFile extends React.Component<SignalSourceBlockProp
                 if (this.state.fileSelected) {
                     const reader = new FileReader();
                     reader.addEventListener("load", (event) => {
-                        const data = event.target?.result as ArrayBuffer;
-                        if (this.props.signalType === "analog")
-                            this.props.onAcquireSignal(Array.from(new Uint16Array(data)));
-                        else
-                            this.props.onAcquireSignal(Array.from(new Uint8Array(data)));
-                        this.setState({selectedFileRead: true});
+                        try {
+                            const signal = JSON.parse(event.target?.result as string) as Signal;
+                            this.props.onAcquireSignal(signal);
+                            this.setState({selectedFileRead: true});
+                        } catch (e) {
+                            console.error("Error parsing the file");
+                        }
                     });
-                    reader.readAsArrayBuffer(this.state.fileSelected);
+                    reader.readAsText(this.state.fileSelected);
                 }
             }}>Read</button>
 

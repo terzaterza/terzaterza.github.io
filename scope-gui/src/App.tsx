@@ -2,7 +2,8 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { TestAnalogWaveform, TestBinaryWaveform, TestDecodedWaveform } from './scope/Waveform.test';
-import { TestSignalSourceBlockFile } from './scope/SignalSource.test';
+import { TestSignalSourceFile } from './scope/SignalSource.test';
+import { TestSignalDisplay } from './scope/Signal.test';
 
 function App() {
   return (
@@ -16,7 +17,8 @@ function App() {
       <TestAnalogWaveform></TestAnalogWaveform>
       <TestBinaryWaveform></TestBinaryWaveform>
       <TestDecodedWaveform></TestDecodedWaveform>
-      <TestSignalSourceBlockFile></TestSignalSourceBlockFile>
+      <TestSignalSourceFile></TestSignalSourceFile>
+      <TestSignalDisplay></TestSignalDisplay>
     </div>
   );
 }

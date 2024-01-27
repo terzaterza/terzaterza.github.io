@@ -1,47 +1,51 @@
 import React from "react";
 import { AnalogWaveform, BinaryWaveform, DecodedWaveform } from "./Waveform";
+import { SignalSourceFile } from "./SignalSource";
 
-export type Sample = number;
-export type AnalogSignal = Sample[];
+export type AnalogSignal = number[];
 export type BinarySignal = (0 | 1)[];
 export type DecodedSignal = (number | string)[];
 
-export type SignalType = "analog" | "binary" | "decoded";
 export type SignalData = AnalogSignal | AnalogSignal[] | BinarySignal | DecodedSignal;
-export type SignalSourceType = Signal | "scope" | "file";
-type SignalSources = Map<string, SignalSourceType>;
+export type SignalType = "analog" | "binary" | "decoded";
+export type SignalSourceType = "scope" | "file" | "computed";
 
-interface Signal {
-    type: SignalType;
-    sources: SignalSources;
-    /* Data is optional since when type is "decoded", it is computed from the sources */
-    data?: SignalData;
-    decoder?: (sources: SignalSources) => SignalData;
+export interface Signal {
+    dataType: SignalType;
+    data: SignalData;
+    ticks: number[];
 }
 
-class SignalDisplay extends React.Component<Signal> {
-    constructor(props: Signal) {
-        super(props);
-        /* Assert that if no data, signal is decoded */
-        console.assert(props.data ?? (props.type === "decoded" && props.decoder));
+export interface SignalProps extends Signal {
+    name: string;
+    sourceType: SignalSourceType;
+    onAcquireSignal: (signal: Signal) => void;
+}
+
+export class SignalDisplay extends React.Component<SignalProps> {
+    private saveSignal(event: React.MouseEvent) {
+        const element = document.createElement("a");
+        const signal: Signal = {data: this.props.data, dataType: this.props.dataType, ticks: this.props.ticks};
+        element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(JSON.stringify(signal)));
+        element.setAttribute("download", "signal.json");
+        element.style.display = "none";
+        element.click();
     }
 
     render(): React.ReactNode {
-        // @ts-expect-error - decoder definition checked for in constructor
-        const signalData: SignalData = this.props.data ?? this.props.decoder(this.props.sources);
-
         return (<div className="signalDisplay">
-            <div className="signalInfo"></div>
-            {this.props.type === "analog" &&
+            {this.props.dataType === "analog" &&
             (<AnalogWaveform
-                waveforms={signalData as AnalogSignal | AnalogSignal[]}
-                yRange={[-5, 5]}></AnalogWaveform>)}
-            {this.props.type === "binary" &&
-            <BinaryWaveform
-                waveform={signalData as BinarySignal}></BinaryWaveform>}
-            {this.props.type === "decoded" &&
-            <DecodedWaveform
-                waveform={signalData as DecodedSignal}></DecodedWaveform>}
+                waveforms={this.props.data as AnalogSignal | AnalogSignal[]}
+                xTicks={this.props.ticks} yRange={[-5, 5]}></AnalogWaveform>)}
+            {this.props.dataType === "binary" &&
+            <BinaryWaveform waveform={this.props.data as BinarySignal}></BinaryWaveform>}
+            {this.props.dataType === "decoded" &&
+            <DecodedWaveform waveform={this.props.data as DecodedSignal}></DecodedWaveform>}
+            
+            <button onClick={(event) => this.saveSignal(event)}>Save signal</button>
+            {this.props.sourceType === "file" &&
+            <SignalSourceFile onAcquireSignal={this.props.onAcquireSignal}></SignalSourceFile>}
         </div>);
     }
 }

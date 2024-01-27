@@ -1,15 +1,14 @@
-import { SignalData, SignalType } from "./Signal";
-import { SignalSourceBlockFile, SignalSourceBlockProps } from "./SignalSource";
+import { Signal, SignalData, SignalType } from "./Signal";
+import { SignalSourceFile, SignalSourceProps } from "./SignalSource";
 
-export function TestSignalSourceBlockFile() {
+export function TestSignalSourceFile() {
     const signalType: SignalType = "decoded";
-    const onAcquireSignal = (data: SignalData): void => {
-        console.log(data);
+    const onAcquireSignal = (signal: Signal): void => {
+        console.log(signal);
     };
 
-    const props: SignalSourceBlockProps = {
-        signalType: signalType,
+    const props: SignalSourceProps = {
         onAcquireSignal: onAcquireSignal
     }
-    return <SignalSourceBlockFile {...props}></SignalSourceBlockFile>;
+    return <SignalSourceFile {...props}></SignalSourceFile>;
 }
