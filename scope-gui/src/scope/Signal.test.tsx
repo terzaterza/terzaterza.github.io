@@ -1,4 +1,4 @@
-import { AnalogSignal, Signal, SignalDisplay, SignalProps } from "./Signal";
+import { AnalogSignal, Signal, SignalDisplay, SignalDisplayProps } from "./Signal";
 
 export function TestSignalDisplay() {
     const length = 2048;
@@ -9,9 +9,9 @@ export function TestSignalDisplay() {
     const sinSignal: AnalogSignal = xTicks.map((x) => Math.sin(sampleRate * x / 32));
     const cosSignal: AnalogSignal = xTicks.map((x) => Math.cos(sampleRate * x / 32));
     
-    const signalProps: SignalProps = {
+    const signalProps: SignalDisplayProps = {
         dataType: "analog",
-        data: [sinSignal, cosSignal],
+        data: sinSignal,
         ticks: xTicks,
         name: "Test signal",
         sourceType: "file",

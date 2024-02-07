@@ -4,6 +4,7 @@ import './App.css';
 import { TestAnalogWaveform, TestBinaryWaveform, TestDecodedWaveform } from './scope/Waveform.test';
 import { TestSignalSourceFile } from './scope/SignalSource.test';
 import { TestSignalDisplay } from './scope/Signal.test';
+import { TestSignalEditor } from './scope/SignalEditor.test';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       <TestDecodedWaveform></TestDecodedWaveform>
       <TestSignalSourceFile></TestSignalSourceFile>
       <TestSignalDisplay></TestSignalDisplay>
+      <TestSignalEditor></TestSignalEditor>
     </div>
   );
 }

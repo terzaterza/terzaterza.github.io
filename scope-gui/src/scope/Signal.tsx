@@ -6,23 +6,22 @@ export type AnalogSignal = number[];
 export type BinarySignal = (0 | 1)[];
 export type DecodedSignal = (number | string)[];
 
-export type SignalData = AnalogSignal | AnalogSignal[] | BinarySignal | DecodedSignal;
 export type SignalType = "analog" | "binary" | "decoded";
 export type SignalSourceType = "scope" | "file" | "computed";
 
 export interface Signal {
     dataType: SignalType;
-    data: SignalData;
+    data: AnalogSignal | BinarySignal | DecodedSignal;
     ticks: number[];
 }
 
-export interface SignalProps extends Signal {
+export interface SignalDisplayProps extends Signal {
     name: string;
     sourceType: SignalSourceType;
     onAcquireSignal: (signal: Signal) => void;
 }
 
-export class SignalDisplay extends React.Component<SignalProps> {
+export class SignalDisplay extends React.Component<SignalDisplayProps> {
     private saveSignal(event: React.MouseEvent) {
         const element = document.createElement("a");
         const signal: Signal = {data: this.props.data, dataType: this.props.dataType, ticks: this.props.ticks};
