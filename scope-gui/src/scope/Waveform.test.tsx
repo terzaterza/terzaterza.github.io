@@ -11,9 +11,9 @@ export function TestAnalogWaveform() {
     const cosSignal: AnalogSignal = xTicks.map((x) => Math.cos(sampleRate * x / 32));
 
     const props: AnalogWaveformProps = {
-        waveforms: [sinSignal, cosSignal],
+        data: [sinSignal, cosSignal],
+        ticks: xTicks,
         yRange: [-2, 2],
-        xTicks: xTicks,
     };
     return <AnalogWaveform {...props}></AnalogWaveform>
 }

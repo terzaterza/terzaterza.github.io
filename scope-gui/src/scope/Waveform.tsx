@@ -3,39 +3,22 @@ import Plot, { PlotParams } from "react-plotly.js";
 import { AnalogSignal, BinarySignal, DecodedSignal } from "./Signal";
 
 export interface AnalogWaveformProps {
-    waveforms: AnalogSignal | AnalogSignal[];
-    yRange: [number, number];
-    xTicks: number[];
-    sharedXAxis?: any;
-    grid?: boolean;
+    data: AnalogSignal[];
+    ticks: number[];
+    yRange?: [number, number];
     labels?: string[];
+    grid?: boolean;
 }
 
 export class AnalogWaveform extends React.Component<AnalogWaveformProps> {
-    private waveformLength: number;
-
-    constructor(props: AnalogWaveformProps) {
-        super(props);
-        
-        /** @todo Maybe move this to render */
-        /* If there are multiple waveforms, check for same length */
-        if (props.waveforms[0] instanceof Array) {
-            const waveforms = props.waveforms as AnalogSignal[];
-            this.waveformLength = waveforms[0].length;
-            console.assert(waveforms.every((w) => w.length === this.waveformLength));
-        } else {
-            this.waveformLength = props.waveforms.length;
-        }
-    }
-
     render(): React.ReactNode {
+        /* assert length of each signal is same as ticks */
+        console.assert(this.props.data.every((s) => s.length === this.props.ticks.length));
         const waveformColors = ["FFEE00", "00FFFF", "AA00FF", "00FFAA"];
-        const waveforms = (this.props.waveforms[0] instanceof Array ?
-            this.props.waveforms : [this.props.waveforms]) as AnalogSignal[];
         const plotProps: PlotParams = {
-            data: waveforms.map((w, i) => ({
-                x: this.props.xTicks,
-                y: w,
+            data: this.props.data.map((s, i) => ({
+                x: this.props.ticks,
+                y: s,
                 mode: "lines",
                 line: {color: waveformColors[i]}
             })),
@@ -44,6 +27,8 @@ export class AnalogWaveform extends React.Component<AnalogWaveformProps> {
         return <Plot {...plotProps}></Plot>;
     }
 }
+
+/** @todo Rename Binary and Decoded props to match Analog (waveform -> data, xTicks -> ticks, ...) */
 
 export interface BinaryWaveformProps {
     waveform: BinarySignal;

@@ -52,7 +52,7 @@ export class SignalEditor extends React.Component<SignalEditorProps, SignalEdito
             <div className="signal-editor-selected-signal-info">
                 <h3>{this.state.selectedSignal.name}</h3>
                 
-                {this.state.selectedSignal.source == "file" &&
+                {this.state.selectedSignal.source === "file" &&
                 <SignalSourceFile onAcquireSignal={(signal: Signal) => {
                     // @ts-expect-error
                     this.props.acquireSignal(this.state.selectedSignal.name, signal);

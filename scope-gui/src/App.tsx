@@ -19,7 +19,7 @@ function App() {
       <TestBinaryWaveform></TestBinaryWaveform>
       <TestDecodedWaveform></TestDecodedWaveform>
       <TestSignalSourceFile></TestSignalSourceFile>
-      <TestSignalDisplay></TestSignalDisplay>
+      {/* <TestSignalDisplay></TestSignalDisplay> */}
       <TestSignalEditor></TestSignalEditor>
     </div>
   );
