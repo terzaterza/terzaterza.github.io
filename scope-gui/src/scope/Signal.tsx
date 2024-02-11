@@ -10,9 +10,11 @@ export type SignalType = "analog" | "binary" | "decoded";
 export type SignalSourceType = "scope" | "file" | "computed" | "mqtt";
 
 export interface Signal {
-    dataType: SignalType;
     data: AnalogSignal | BinarySignal | DecodedSignal;
-    ticks: number[];
+    dataType: SignalType;
+    offset?: number;
+    ticks?: number[];
+    sampleRate?: number; // not used if ticks are specified
 }
 
 export function signalSave(signal: Signal) {

@@ -5,19 +5,13 @@ import { TestAnalogWaveform, TestBinaryWaveform, TestDecodedWaveform } from './s
 import { TestSignalSourceFile } from './scope/SignalSource.test';
 import { TestSignalDisplay } from './scope/Signal.test';
 import { TestSignalEditor } from './scope/SignalEditor.test';
+import { TestPlotAnalog, TestPlotBinary } from './scope/Plot.test';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-      </header>
-      <TestAnalogWaveform></TestAnalogWaveform>
-      <TestBinaryWaveform></TestBinaryWaveform>
-      <TestDecodedWaveform></TestDecodedWaveform>
+      <TestPlotAnalog></TestPlotAnalog>
+      <TestPlotBinary></TestPlotBinary>
       <TestSignalSourceFile></TestSignalSourceFile>
       {/* <TestSignalDisplay></TestSignalDisplay> */}
       <TestSignalEditor></TestSignalEditor>
